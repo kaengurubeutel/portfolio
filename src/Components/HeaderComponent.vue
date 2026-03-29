@@ -6,18 +6,19 @@ const router = useRouter()
 <template>
   <header class="header">
     <nav class="nav">
+      <button class="nav-btn icon" @click="router.push('/')">Home</button>
       <ul class="nav-list">
-        <li v-if="router.currentRoute.value.path !== '/'">
+        <li v-if="router.currentRoute.value.path !== '/' && router.currentRoute.value.path !== '/projects'">
           <button class="nav-btn" @click="router.back()">back</button>
         </li>
-        <li v-if="router.currentRoute.value.path !== '/'">
-          <button class="nav-btn" @click="router.push('/')">Home</button>
-        </li>
         <li>
+          <a href="https://github.com/kaengurubeutel" target="_blank">
+            <button class="nav-btn">My Github</button>
+          </a>
+        </li>
+        <li v-if="router.currentRoute.value.path === '/'">
           <button class="nav-btn" @click="router.push('/projects')">Projects</button>
         </li>
-
-
       </ul>
     </nav>
   </header>
@@ -28,7 +29,7 @@ const router = useRouter()
 
 .header {
   position: fixed;
-  top: 20px;
+  top: 10px;
   left: 0;
   z-index: 1000;
   display: flex;
@@ -40,46 +41,51 @@ const router = useRouter()
 
 .nav {
   width: 100%;
-  max-width: 1200px;
+  margin: $space-side-mobile;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
+  padding: $space-standard;
+  background-color: $clr-font-main;
+  border-radius: $radius-outer;
 
   .nav-list {
     display: flex;
     gap: $space-standard;
-    padding: $space-standard;
     list-style: none;
-    background-color: $clr-font-main;
-    border-radius: $radius-outer;
+    padding: 0;
+    margin: 0;
 
     li {
       display: flex;
     }
 
-    .nav-btn {
-      // Apply our Global Design System
-      @include font-style(500);
-      @include button-interactive;
-
-      // Layout & Sizing
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-width: 40px;
-      height: 36px;
-      padding: 4px 24px;
-
-      // Theming
-      color: $clr-font-main;
-      background-color: $clr-off-white;
-      border-radius: $radius-inner;
-
-      // Reset default button styles
-      border: none;
-      text-align: center;
-      white-space: nowrap;
-      appearance: none;
+    a {
+      all: unset;
+      text-decoration: none;
     }
+  }
+
+  .nav-btn {
+    @include font-style(500);
+    @include button-interactive;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 36px;
+    padding: 4px 24px;
+    color: $clr-font-main;
+    background-color: $clr-off-white;
+    border-radius: $radius-inner;
+    border: none;
+    text-align: center;
+    white-space: nowrap;
+    appearance: none;
+    cursor: pointer;
+  }
+
+  .icon {
+    width: fit-content;
   }
 }
 </style>
