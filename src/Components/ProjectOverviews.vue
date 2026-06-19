@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { gql } from '@apollo/client/core'
-import apolloClient from '@/apollo' // Stelle sicher, dass der Pfad zu deiner Apollo-Datei stimmt!
+import { apolloClient } from '@/main'
 
 // 1. Reaktive Variablen für den Zustand
 const projectPreviews = ref<any[]>([])
