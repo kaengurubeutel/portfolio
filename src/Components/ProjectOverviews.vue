@@ -26,7 +26,7 @@ const GET_PROJECTS = gql`
   }
 `
 
-// 3. Daten beim Laden der Komponente direkt über den Client abfragen
+
 onMounted(async () => {
   try {
     const response = await apolloClient.query({
