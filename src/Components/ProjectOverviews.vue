@@ -1,7 +1,14 @@
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import { gql } from '@apollo/client/core'
+import apolloClient from '@/apollo' // Stelle sicher, dass der Pfad zu deiner Apollo-Datei stimmt!
 
-// 1. Definiere die Query sauber als Konstante im Script-Bereich
+// 1. Reaktive Variablen für den Zustand
+const projectPreviews = ref<any[]>([])
+const loading = ref(true)
+const error = ref<string | null>(null)
+
+// 2. Deine Query
 const GET_PROJECTS = gql`
   query MyQuery {
     projectPreviews {
@@ -18,42 +25,54 @@ const GET_PROJECTS = gql`
     }
   }
 `
+
+// 3. Daten beim Laden der Komponente direkt über den Client abfragen
+onMounted(async () => {
+  try {
+    const response = await apolloClient.query({
+      query: GET_PROJECTS
+    })
+    projectPreviews.value = response.data.projectPreviews
+  } catch (err: any) {
+    console.error("Apollo Fetch Error:", err)
+    error.value = err.message || "Fehler beim Laden der Projekte"
+  } finally {
+    loading.value = false
+  }
+})
 </script>
 
 <template>
-  <ApolloQuery :query="GET_PROJECTS">
-    <template v-slot="{ result: { loading, error, data } }">
-      <div v-if="loading" class="loading">Loading projects...</div>
+  <div>
+    <div v-if="loading" class="loading">Loading projects...</div>
 
-      <div v-else-if="error" class="error">Error: {{ error.message }}</div>
+    <div v-else-if="error" class="error">Error: {{ error }}</div>
 
-      <div v-else-if="data && data.projectPreviews" class="project-list">
-        <article v-for="project in data.projectPreviews" :key="project.id" class="project-card">
-          <div class="card-content">
-            <div class="text-top">
-              <div class="project-skill-container">
-                <span v-for="skill in project.skills" :key="skill" class="project-skill">
-                  {{ skill }}
-                </span>
-              </div>
-              <h2 class="project-title">{{ project.projectName }}</h2>
-              <p class="project-description">{{ project.projectDescription?.markdown }}</p>
+    <div v-else-if="projectPreviews.length > 0" class="project-list">
+      <article v-for="project in projectPreviews" :key="project.id" class="project-card">
+        <div class="card-content">
+          <div class="text-top">
+            <div class="project-skill-container">
+              <span v-for="skill in project.skills" :key="skill" class="project-skill">
+                {{ skill }}
+              </span>
             </div>
-            <router-link :to="'/project/' + project.projectSlug" class="project-btn">
-              <span>Open Project</span>
-            </router-link>
+            <h2 class="project-title">{{ project.projectName }}</h2>
+            <p class="project-description">{{ project.projectDescription?.markdown }}</p>
           </div>
-          <div class="card-image">
-            <img :src="project.coverImage?.url" :alt="project.projectName" />
-          </div>
-        </article>
-      </div>
+          <router-link :to="'/project/' + project.projectSlug" class="project-btn">
+            <span>Open Project</span>
+          </router-link>
+        </div>
+        <div class="card-image">
+          <img :src="project.coverImage?.url" :alt="project.projectName" />
+        </div>
+      </article>
+    </div>
 
-      <div v-else class="no-data">No projects found.</div>
-    </template>
-  </ApolloQuery>
+    <div v-else class="no-data">No projects found.</div>
+  </div>
 </template>
-
 
 <style lang="scss" scoped>
 @use "@/assets/main.scss" as *;
