@@ -1,23 +1,27 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { gql } from '@apollo/client/core'
+
+// 1. Definiere die Query sauber als Konstante im Script-Bereich
+const GET_PROJECTS = gql`
+  query MyQuery {
+    projectPreviews {
+      id
+      projectSlug
+      projectName
+      projectDescription {
+        markdown
+      }
+      skills
+      coverImage {
+        url
+      }
+    }
+  }
+`
+</script>
 
 <template>
-  <ApolloQuery :query="(gql: any) => gql`
-        query MyQuery {
-          projectPreviews {
-            id
-            projectSlug
-            projectName
-            projectDescription {
-              markdown
-            }
-            skills
-            coverImage {
-              url
-            }
-          }
-        }
-      `
-    ">
+  <ApolloQuery :query="GET_PROJECTS">
     <template v-slot="{ result: { loading, error, data } }">
       <div v-if="loading" class="loading">Loading projects...</div>
 
@@ -25,7 +29,6 @@
 
       <div v-else-if="data && data.projectPreviews" class="project-list">
         <article v-for="project in data.projectPreviews" :key="project.id" class="project-card">
-
           <div class="card-content">
             <div class="text-top">
               <div class="project-skill-container">
@@ -34,20 +37,15 @@
                 </span>
               </div>
               <h2 class="project-title">{{ project.projectName }}</h2>
-
               <p class="project-description">{{ project.projectDescription?.markdown }}</p>
-
             </div>
-
             <router-link :to="'/project/' + project.projectSlug" class="project-btn">
               <span>Open Project</span>
             </router-link>
           </div>
-
           <div class="card-image">
             <img :src="project.coverImage?.url" :alt="project.projectName" />
           </div>
-
         </article>
       </div>
 
@@ -55,6 +53,7 @@
     </template>
   </ApolloQuery>
 </template>
+
 
 <style lang="scss" scoped>
 @use "@/assets/main.scss" as *;
