@@ -15,7 +15,7 @@
     <div class="content">
       <p id="intro-text">
         Building & Designing<br />
-        Apps, Brands and Products<br />
+        Products<br />
         in the digital Space
       </p>
       <h1>Maximilian <br />Uhlig</h1>
@@ -64,11 +64,9 @@
   width: 100vw;
   height: 100vh;
   border-radius: 50%;
-  background: radial-gradient(
-    circle at center,
-    rgba(255, 220, 100, 1) 0%,
-    rgba(255, 220, 100, 0) 70%
-  );
+  background: radial-gradient(circle at center,
+      rgba(255, 220, 100, 1) 0%,
+      rgba(255, 220, 100, 0) 70%);
 
   top: -10%;
   right: -10%;
@@ -87,32 +85,36 @@
   0% {
     transform: translate(0, 0) scale(1);
   }
+
   33% {
 
-    transform: translate(-30vw, 10vh) scale(1.1) ;
+    transform: translate(-30vw, 10vh) scale(1.1);
   }
+
   66% {
 
     transform: translate(-50vw, 5vh) scale(1.4);
   }
+
   100% {
 
     transform: translate(-20vw, 2vh) scale(1.05);
   }
 }
-  #projects-header {
-    @include font-style(700, clamp(2rem, 1.3398rem + 2.1127vw, 3.875rem));
-    margin-bottom: 40px;
-    color: #1d1a03;
 
-    padding: $space-standard $space-side-mobile 40px $space-side-mobile;
+#projects-header {
+  @include font-style(700, clamp(2rem, 1.3398rem + 2.1127vw, 3.875rem));
+  margin-bottom: 40px;
+  color: #1d1a03;
 
-
-
-  }
+  padding: $space-standard $space-side-mobile 40px $space-side-mobile;
 
 
-  #intro-text {
+
+}
+
+
+#intro-text {
 
   font-size: clamp(2rem, 1.3398rem + 2.1127vw, 3.875rem);
   font-weight: 500;
@@ -130,5 +132,4 @@ h1 {
   line-height: 0.9;
   color: #121212;
 }
-
 </style>
