@@ -3,15 +3,21 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 import { createApolloProvider } from '@vue/apollo-option'
-import { ApolloClient, InMemoryCache } from '@apollo/client/core'
+import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core'
 import VueApolloComponents from '@vue/apollo-components'
 import './assets/main.scss'
 
 const cache = new InMemoryCache()
 
+
+const httpLink = createHttpLink({
+  uri: 'https://eu-west-2.cdn.hygraph.com/content/cmltyy9ly00ng07w27kip7jie/master',
+})
+
+
 const apolloClient = new ApolloClient({
   cache,
-  uri: 'https://eu-west-2.cdn.hygraph.com/content/cmltyy9ly00ng07w27kip7jie/master',
+  link: httpLink,
 })
 
 const apolloProvider = createApolloProvider({
