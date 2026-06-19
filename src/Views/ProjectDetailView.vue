@@ -103,13 +103,12 @@ main {
   display: flex;
   flex-direction: column;
   gap: 40px;
-  padding: $space-standard; // mobile
+  padding: calc($space-standard + $space-side-mobile); // mobile
   box-sizing: border-box;
 
   @media (min-width: 1024px) {
-    flex-direction: row;
-    align-items: flex-start;
-    padding: $space-side-desktop; // desktop
+
+    padding: calc($space-standard + $space-side-mobile); // mobile
   }
 }
 
@@ -119,13 +118,7 @@ main {
   min-width: 300px;
   flex-grow: 1;
 
-  @media (min-width: 1024px) {
-    border-right: 3px solid #1d1a03;
-    position: sticky;
-    top: calc(80px - 20px);
-    height: calc(100vh - 80px);
-    overflow-y: auto;
-  }
+
 
   .project-detail-content {
     display: flex;
@@ -183,10 +176,9 @@ main {
 
   .section-text-wrapper {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 20px;
     margin-bottom: 40px;
-    max-width: 600px;
   }
 
   h2 {
@@ -198,7 +190,7 @@ main {
   p {
     @include font-style(400, clamp(1rem, 0.8rem + 1vw, 1.2rem));
     width: 100%;
-    max-width: 600px;
+
   }
 
   img {
