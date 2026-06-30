@@ -1,5 +1,5 @@
 # Portfolio
-Das ist meine Portfolioseite, hier 
+Das ist meine Portfolioseite
 
 ## Vorschau
 <img width="1470" height="927" alt="grafik" src="https://github.com/user-attachments/assets/1a0954d1-802c-41e2-9aff-515f9d5b3661" />
